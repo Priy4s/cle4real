@@ -12,6 +12,8 @@ namespace myTiles {
     export const tile4 = image.ofBuffer(hex``);
     //% fixedInstance jres blockIdentity=images._tile
     export const tile6 = image.ofBuffer(hex``);
+    //% fixedInstance jres blockIdentity=images._tile
+    export const tile5 = image.ofBuffer(hex``);
 
     helpers._registerFactory("tilemap", function(name: string) {
         switch(helpers.stringTrim(name)) {
@@ -320,7 +322,7 @@ namespace myTiles {
 . . . . . . . . . . . . . . . . 
 `, [myTiles.transparency16], TileScale.Sixteen);
             case "level0":
-            case "level2":return tiles.createTilemap(hex`1000100002020202020201010303010101010101010101010101010103030101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101`, img`
+            case "level2":return tiles.createTilemap(hex`1000100002020202020201010303010101070606010101010101010103030101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010105050101010101010101010101010101050501010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010104040401010101010101010101010101`, img`
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
@@ -337,7 +339,7 @@ namespace myTiles {
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
-`, [myTiles.transparency16,myTiles.tile1,sprites.builtin.oceanSand2,sprites.builtin.oceanSand8], TileScale.Sixteen);
+`, [myTiles.transparency16,myTiles.tile1,sprites.builtin.oceanSand2,sprites.builtin.oceanSand8,myTiles.tile5,sprites.builtin.oceanDepths3,sprites.builtin.oceanDepths9,sprites.builtin.oceanDepths8], TileScale.Sixteen);
         }
         return null;
     })
@@ -355,6 +357,8 @@ namespace myTiles {
             case "tile4":return tile4;
             case "myTile4":
             case "tile6":return tile6;
+            case "myTile3":
+            case "tile5":return tile5;
         }
         return null;
     })

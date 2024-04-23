@@ -1,5 +1,6 @@
 namespace SpriteKind {
-    export const Object = SpriteKind.create()
+    export const Chest = SpriteKind.create()
+    export const Key = SpriteKind.create()
 }
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (!(playing)) {
@@ -22,7 +23,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
                 b c e e e e e e e e e e e e c b 
                 b b b b b b b b b b b b b b b b 
                 . b b . . . . . . . . . . b b . 
-                `, SpriteKind.Object)
+                `, SpriteKind.Chest)
             key = sprites.create(img`
                 . . . . . . . . . . . . . . . . 
                 . . . . . . . . . . . . . . . . 
@@ -40,9 +41,9 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
                 . . . . . . . . . . . . . . . . 
                 . . . . . . . . . . . . . . . . 
                 . . . . . . . . . . . . . . . . 
-                `, SpriteKind.Player)
-            chest.setPosition(20, 25)
-            key.setPosition(38, 25)
+                `, SpriteKind.Key)
+            chest.setPosition(8, 9)
+            key.setPosition(250, 250)
         }
         if (level == 2) {
             game.splash("\"Level 2 - The journey\"")
@@ -51,48 +52,69 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
             game.splash("\"Level 3 - The end\"")
         }
         playing = true
+        controller.moveSprite(mySprite, 75, 75)
+        scene.cameraFollowSprite(mySprite)
     }
 })
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
-    level += -1
-    if (level == 0) {
-        level = 1
-        mySprite.sayText(level, 5000, false)
-    }
-    if (level != 0) {
-        mySprite.sayText(level, 5000, false)
-    }
-    if (level == 1) {
-        tiles.setCurrentTilemap(tilemap`level0`)
-    }
-    if (level == 2) {
-        tiles.setCurrentTilemap(tilemap`level14`)
-    }
-    if (level == 3) {
-        tiles.setCurrentTilemap(tilemap`level15`)
+    if (!(playing)) {
+        level += -1
+        if (level == 0) {
+            level = 1
+            mySprite.sayText(level, 1000, true)
+        }
+        if (level != 0) {
+            mySprite.sayText(level, 1000, true)
+        }
+        if (level == 1) {
+            tiles.setCurrentTilemap(tilemap`level0`)
+        }
+        if (level == 2) {
+            tiles.setCurrentTilemap(tilemap`level14`)
+        }
+        if (level == 3) {
+            tiles.setCurrentTilemap(tilemap`level15`)
+        }
     }
 })
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Chest, function (sprite, otherSprite) {
+    if (keyFound) {
+        sprites.destroy(chest, effects.hearts, 500)
+        game.showLongText("You beat the level!", DialogLayout.Bottom)
+        game.reset()
+    }
+    if (!(keyFound)) {
+        game.showLongText("You haven't found the key yet!", DialogLayout.Bottom)
+    }
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Key, function (sprite, otherSprite) {
+    sprites.destroy(key, effects.hearts, 500)
+    keyFound = true
+})
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
-    level += 1
-    if (level == 4) {
-        level = 3
-        mySprite.sayText(level, 5000, false)
-    }
-    if (level != 4) {
-        mySprite.sayText(level, 5000, false)
-    }
-    if (level == 1) {
-        tiles.setCurrentTilemap(tilemap`level0`)
-    }
-    if (level == 2) {
-        tiles.setCurrentTilemap(tilemap`level14`)
-    }
-    if (level == 3) {
-        tiles.setCurrentTilemap(tilemap`level15`)
+    if (!(playing)) {
+        level += 1
+        if (level == 4) {
+            level = 3
+            mySprite.sayText(level, 1000, true)
+        }
+        if (level != 4) {
+            mySprite.sayText(level, 1000, true)
+        }
+        if (level == 1) {
+            tiles.setCurrentTilemap(tilemap`level0`)
+        }
+        if (level == 2) {
+            tiles.setCurrentTilemap(tilemap`level14`)
+        }
+        if (level == 3) {
+            tiles.setCurrentTilemap(tilemap`level15`)
+        }
     }
 })
 let key: Sprite = null
 let chest: Sprite = null
+let keyFound = false
 let mySprite: Sprite = null
 let level = 0
 let playing = false
@@ -119,3 +141,4 @@ mySprite = sprites.create(img`
     . . . . . . c c c c c b b . . . 
     `, SpriteKind.Player)
 mySprite.sayText(level)
+keyFound = false
